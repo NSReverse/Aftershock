@@ -18,7 +18,12 @@
     -fx-font-weight: bold;
 }
 .string {
+    -fx-fill: darkgreen;
+    -fx-font-style: italic;
+}
+.value {
     -fx-fill: blue;
+    -fx-font-weight: bold;
 }
 
 .comment {

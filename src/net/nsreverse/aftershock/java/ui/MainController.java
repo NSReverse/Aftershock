@@ -427,7 +427,13 @@ public class MainController implements ConfirmDialog.Delegate,
             "transient", "try", "void", "volatile", "while"
     };
 
+    private static final String[] VALUES = new String[] {
+            "true", "false"
+    };
+
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String VALUE_PATTERN = "\\b(" + String.join("|", VALUES) + ")\\b";
+    private static final String INT_PATTERN = "\\b-?\\d+\\b";
     private static final String PAREN_PATTERN = "\\(|\\)";
     private static final String BRACE_PATTERN = "\\{|\\}";
     private static final String BRACKET_PATTERN = "\\[|\\]";
@@ -437,6 +443,8 @@ public class MainController implements ConfirmDialog.Delegate,
 
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    + "|(?<VALUE>" + VALUE_PATTERN + ")"
+                    + "|(?<INT>" + INT_PATTERN + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
                     + "|(?<BRACE>" + BRACE_PATTERN + ")"
                     + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
@@ -453,13 +461,15 @@ public class MainController implements ConfirmDialog.Delegate,
         while(matcher.find()) {
             String styleClass =
                     matcher.group("KEYWORD") != null ? "keyword" :
-                            matcher.group("PAREN") != null ? "paren" :
-                                    matcher.group("BRACE") != null ? "brace" :
-                                            matcher.group("BRACKET") != null ? "bracket" :
-                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
-                                                            matcher.group("STRING") != null ? "string" :
-                                                                    matcher.group("COMMENT") != null ? "comment" :
-                                                                            null; /* never happens */ assert styleClass != null;
+                            matcher.group("VALUE") != null ? "value" :
+                                    matcher.group("INT") != null ? "value" :
+                                            matcher.group("PAREN") != null ? "paren" :
+                                                    matcher.group("BRACE") != null ? "brace" :
+                                                            matcher.group("BRACKET") != null ? "bracket" :
+                                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
+                                                                            matcher.group("STRING") != null ? "string" :
+                                                                                    matcher.group("COMMENT") != null ? "comment" :
+                                                                                            null; /* never happens */ assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
             lastKwEnd = matcher.end();
