@@ -133,10 +133,10 @@ public class MainController implements ConfirmDialog.Delegate,
             terminalStage.setScene(new Scene(root, 600, 400));
             terminalStage.show();
         }
-        catch (IOException ex) {
+        catch (Exception ex) {
             if (ApplicationConfig.loggingEnabled) Logger.e(TAG, ex.getMessage());
             AlertDialog.withTitle("Fatal Error").message("Please warn the developer about this message.\n\n" +
-                    ex.getMessage()).show();
+                    ex.getClass().getName() + ": " + ex.getMessage()).show();
         }
     }
 
@@ -267,6 +267,9 @@ public class MainController implements ConfirmDialog.Delegate,
         switch (tag) {
             case CLOSE_DIALOG_TAG: {
                 ApplicationConfig.applicationWillClose();
+
+                killTerminal();
+
                 ((Stage)playImageView.getScene().getWindow()).close();
             } break;
 
@@ -332,6 +335,14 @@ public class MainController implements ConfirmDialog.Delegate,
         }
 
         refreshDirectoryListing();
+    }
+
+    public void killTerminal() {
+        if (terminal != null) {
+            terminal.destroy();
+            terminalTabPane.getTabs().removeAll(terminal);
+            terminal = null;
+        }
     }
 
     private boolean createFileWithBoiler(File file, String boiler) throws IOException {
