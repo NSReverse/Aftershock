@@ -14,8 +14,6 @@ public class ApplicationConfig {
     private static final String TAG = ApplicationConfig.class.getName();
     public static final boolean loggingEnabled = true;
 
-    public static String currentProjectFolder = null;
-
     public static void applicationWillLaunch() {
         if (loggingEnabled) Logger.i(TAG, "applicationWillLaunch");
     }

@@ -80,7 +80,7 @@ public class MainController implements ConfirmDialog.Delegate,
         playImageView.setImage(new Image(ResourceResolver.getImage("play")));
         buildImageView.setImage(new Image(ResourceResolver.getImage("build")));
 
-        if (ApplicationConfig.currentProjectFolder == null) {
+        if (projectBaseDirectory == null) {
             newClassMenuItem.setDisable(true);
             newInterfaceMenuItem.setDisable(true);
             deleteMenuItem.setDisable(true);
