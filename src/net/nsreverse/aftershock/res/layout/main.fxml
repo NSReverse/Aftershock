@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.fxmisc.richtext.CodeArea?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.nsreverse.aftershock.java.ui.MainController">
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                        <MenuItem fx:id="newClassMenuItem" mnemonicParsing="false" onAction="#newClassMenuItemSelected" text="New Java Class">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="newInterfaceMenuItem" mnemonicParsing="false" onAction="#newInterfaceMenuItemSelected" text="New Java Interface">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="openFolderMenuItem" mnemonicParsing="false" onAction="#openFolderMenuItemSelected" text="Open Folder">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveMenuItemSelected" text="Save">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuItemSelected" text="Close Editor" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#deleteMenuItemSelected" text="Delete" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Window">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#terminalMenuItemSelected" text="Independent Terminal" />
+                    </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#aboutMenuItemSelected" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+               <items>
+                  <ImageView fx:id="cleanImageView" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#cleanImageViewClicked" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="buildImageView" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#buildImageViewClicked" pickOnBounds="true" preserveRatio="true" />
+                  <Separator maxHeight="-Infinity" minHeight="-Infinity" orientation="VERTICAL" prefHeight="25.0" />
+                  <ImageView fx:id="playImageView" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#playImageViewClicked" pickOnBounds="true" preserveRatio="true" />
+               </items>
+            </ToolBar>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TitledPane alignment="TOP_LEFT" animated="false" collapsible="false" text="Project" VBox.vgrow="ALWAYS" />
+                  <TreeView fx:id="projectTreeView" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <CodeArea fx:id="mainCodeArea" prefHeight="200.0" prefWidth="200.0" />
+        </items>
+      </SplitPane>
+   </center>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <TitledPane fx:id="terminalTitledPane" animated="false" expanded="false" text="Terminal">
+               <content>
+                  <TabPane fx:id="terminalTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" />
+               </content></TitledPane>
+            <TitledPane animated="false" text="Status">
+               <content>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
+                     <items>
+                        <Label fx:id="statusLabel" text="Label" />
+                     </items>
+                  </ToolBar>
+               </content>
+            </TitledPane>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>

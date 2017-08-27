@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="terminalfx">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/terminalfx.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
