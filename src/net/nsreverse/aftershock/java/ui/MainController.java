@@ -181,31 +181,19 @@ public class MainController implements ConfirmDialog.Delegate,
     @FXML private void buildImageViewClicked() {
         cleanImageViewClicked();
 
+        Scene currentScene = playImageView.getScene();
+
         if (projectBaseDirectory != null || currentEditingFile != null) {
             try {
-                Process p = Runtime.getRuntime().exec("javac " + currentEditingFile.getName(), null,
-                        projectBaseDirectory);
+                terminal.command("javac " + currentEditingFile.getName());
+                terminal.focusCursor();
 
-                if (ApplicationConfig.loggingEnabled) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                    BufferedReader eReader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        Logger.d(TAG, "Input Stream > " + line);
-                    }
-
-                    while ((line = eReader.readLine()) != null) {
-                        Logger.d(TAG, "Error Stream > " + line);
-                    }
-                }
+                simulateEnter(currentScene);
             }
-            catch (IOException ex) {
+            catch (Exception ex) {
                 if (ApplicationConfig.loggingEnabled) Logger.e(TAG, ex.getMessage());
             }
         }
-
-        refreshDirectoryListing();
 
         statusLabel.setText("Rebuild complete.");
     }
@@ -218,11 +206,24 @@ public class MainController implements ConfirmDialog.Delegate,
                 if (currentEditingFile != null) {
                     statusLabel.setText("Compiling " + currentEditingFile.getName());
 
+                    Process p = Runtime.getRuntime().exec("javac " + currentEditingFile.getName(), null,
+                            projectBaseDirectory);
+
+                    if (ApplicationConfig.loggingEnabled) {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                        BufferedReader eReader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+                        String line;
+
+                        while ((line = reader.readLine()) != null) {
+                            Logger.d(TAG, "Input Stream > " + line);
+                        }
+
+                        while ((line = eReader.readLine()) != null) {
+                            Logger.d(TAG, "Error Stream > " + line);
+                        }
+                    }
+
                     String className = currentEditingFile.getName().split("\\.")[0];
-
-                    buildImageViewClicked();
-
-                    refreshDirectoryListing();
 
                     if (!terminalTitledPane.isExpanded()) terminalTitledPane.setExpanded(true);
 
@@ -232,6 +233,8 @@ public class MainController implements ConfirmDialog.Delegate,
                     simulateEnter(currentScene);
 
                     statusLabel.setText("Executed " + currentEditingFile.getName());
+
+                    refreshDirectoryListing();
                 }
             }
             catch (Exception ex) {
