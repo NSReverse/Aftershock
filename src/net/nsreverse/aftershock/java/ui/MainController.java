@@ -184,6 +184,8 @@ public class MainController implements ConfirmDialog.Delegate,
         Scene currentScene = playImageView.getScene();
 
         if (projectBaseDirectory != null || currentEditingFile != null) {
+            if (!terminalTitledPane.isExpanded()) terminalTitledPane.setExpanded(true);
+
             try {
                 terminal.command("javac " + currentEditingFile.getName());
                 terminal.focusCursor();
