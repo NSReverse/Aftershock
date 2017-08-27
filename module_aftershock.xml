@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_aftershock" default="compile.module.aftershock">
+  <dirname property="module.aftershock.basedir" file="${ant.file.module_aftershock}"/>
+  
+  <property name="module.jdk.home.aftershock" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.aftershock" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.aftershock" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.aftershock" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="aftershock.output.dir" value="${module.aftershock.basedir}/out/production/Aftershock"/>
+  <property name="aftershock.testoutput.dir" value="${module.aftershock.basedir}/out/test/Aftershock"/>
+  
+  <path id="aftershock.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="aftershock.module.production.classpath">
+    <path refid="${module.jdk.classpath.aftershock}"/>
+    <path refid="library.jackson-core-2.8.4.classpath"/>
+    <path refid="library.jackson-annotations-2.8.4.classpath"/>
+    <path refid="library.jackson-databind-2.8.4.classpath"/>
+    <path refid="library.jfoenix.classpath"/>
+    <path refid="library.jna-4.1.0.classpath"/>
+    <path refid="library.jna-platform-4.1.0.classpath"/>
+    <path refid="library.pty4j-0.7.3.classpath"/>
+    <path refid="library.purejavacomm-0.0.17.classpath"/>
+    <path refid="library.richtextfx-demos-fat-0.7-m5.classpath"/>
+    <path refid="library.terminalfx.classpath"/>
+  </path>
+  
+  <path id="aftershock.runtime.production.module.classpath">
+    <pathelement location="${aftershock.output.dir}"/>
+    <path refid="library.jackson-core-2.8.4.classpath"/>
+    <path refid="library.jackson-annotations-2.8.4.classpath"/>
+    <path refid="library.jackson-databind-2.8.4.classpath"/>
+    <path refid="library.jfoenix.classpath"/>
+    <path refid="library.jna-4.1.0.classpath"/>
+    <path refid="library.jna-platform-4.1.0.classpath"/>
+    <path refid="library.pty4j-0.7.3.classpath"/>
+    <path refid="library.purejavacomm-0.0.17.classpath"/>
+    <path refid="library.richtextfx-demos-fat-0.7-m5.classpath"/>
+    <path refid="library.terminalfx.classpath"/>
+  </path>
+  
+  <path id="aftershock.module.classpath">
+    <path refid="${module.jdk.classpath.aftershock}"/>
+    <pathelement location="${aftershock.output.dir}"/>
+    <path refid="library.jackson-core-2.8.4.classpath"/>
+    <path refid="library.jackson-annotations-2.8.4.classpath"/>
+    <path refid="library.jackson-databind-2.8.4.classpath"/>
+    <path refid="library.jfoenix.classpath"/>
+    <path refid="library.jna-4.1.0.classpath"/>
+    <path refid="library.jna-platform-4.1.0.classpath"/>
+    <path refid="library.pty4j-0.7.3.classpath"/>
+    <path refid="library.purejavacomm-0.0.17.classpath"/>
+    <path refid="library.richtextfx-demos-fat-0.7-m5.classpath"/>
+    <path refid="library.terminalfx.classpath"/>
+  </path>
+  
+  <path id="aftershock.runtime.module.classpath">
+    <pathelement location="${aftershock.testoutput.dir}"/>
+    <pathelement location="${aftershock.output.dir}"/>
+    <path refid="library.jackson-core-2.8.4.classpath"/>
+    <path refid="library.jackson-annotations-2.8.4.classpath"/>
+    <path refid="library.jackson-databind-2.8.4.classpath"/>
+    <path refid="library.jfoenix.classpath"/>
+    <path refid="library.jna-4.1.0.classpath"/>
+    <path refid="library.jna-platform-4.1.0.classpath"/>
+    <path refid="library.pty4j-0.7.3.classpath"/>
+    <path refid="library.purejavacomm-0.0.17.classpath"/>
+    <path refid="library.richtextfx-demos-fat-0.7-m5.classpath"/>
+    <path refid="library.terminalfx.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.aftershock">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.aftershock">
+    <patternset refid="excluded.from.module.aftershock"/>
+  </patternset>
+  
+  <path id="aftershock.module.sourcepath">
+    <dirset dir="${module.aftershock.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.aftershock" depends="compile.module.aftershock.production,compile.module.aftershock.tests" description="Compile module Aftershock"/>
+  
+  <target name="compile.module.aftershock.production" depends="register.custom.compilers" description="Compile module Aftershock; production classes">
+    <mkdir dir="${aftershock.output.dir}"/>
+    <javac2 destdir="${aftershock.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.aftershock}/javac">
+      <compilerarg line="${compiler.args.aftershock}"/>
+      <bootclasspath refid="aftershock.module.bootclasspath"/>
+      <classpath refid="aftershock.module.production.classpath"/>
+      <src refid="aftershock.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.aftershock"/>
+    </javac2>
+    
+    <copy todir="${aftershock.output.dir}">
+      <fileset dir="${module.aftershock.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.aftershock.tests" depends="register.custom.compilers,compile.module.aftershock.production" description="compile module Aftershock; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.aftershock" description="cleanup module">
+    <delete dir="${aftershock.output.dir}"/>
+    <delete dir="${aftershock.testoutput.dir}"/>
+  </target>
+</project>
